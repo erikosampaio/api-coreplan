@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  produto: MyString
+  processadores_suportados: MyString
+  quantidade_slots_memoria: 1
+  total_memoria_suportada: 1
+  video_integrado: MyString
+
+two:
+  produto: MyString
+  processadores_suportados: MyString
+  quantidade_slots_memoria: 1
+  total_memoria_suportada: 1
+  video_integrado: MyString

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  cliente: MyString
+  processador: one
+  placa_mae: one
+  placa_video: one
+
+two:
+  cliente: MyString
+  processador: two
+  placa_mae: two
+  placa_video: two
