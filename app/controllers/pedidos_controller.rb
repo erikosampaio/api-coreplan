@@ -16,8 +16,10 @@ class PedidosController < ApplicationController
   # POST /pedidos
   def create
     @pedido = Pedido.new(pedido_params)
-    memorias_ram = MemoriaRam.find((params[:memoria_rans].pluck(:id)))
-    @pedido.memoria_rans << memorias_ram
+    if params[:memoria_rans].present?
+      memorias_ram = MemoriaRam.find((params[:memoria_rans].pluck(:id)))
+      @pedido.memoria_rans << memorias_ram
+    end
     
     validacoes_pedido
 
