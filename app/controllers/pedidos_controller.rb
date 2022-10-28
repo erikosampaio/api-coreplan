@@ -16,10 +16,17 @@ class PedidosController < ApplicationController
   # POST /pedidos
   def create
     @pedido = Pedido.new(pedido_params)
-    memorias_ram = MemoriaRam.find((params[:memoria_rans_attributes].pluck(:id)))
+    memorias_ram = MemoriaRam.find((params[:memoria_rans].pluck(:id)))
     @pedido.memoria_rans << memorias_ram
-    if @pedido.save
-      render json: @pedido, include: [:processador, :placa_mae, :placa_video]
+    
+    validacoes_pedido
+
+    unless @pedido.errors.present?
+      if @pedido.save
+        render json: @pedido, include: [:processador, :placa_mae, :placa_video]
+      else
+        render json: @pedido.errors, status: :unprocessable_entity
+      end
     else
       render json: @pedido.errors, status: :unprocessable_entity
     end
@@ -50,5 +57,14 @@ class PedidosController < ApplicationController
       params.require(:pedido).permit(
         :cliente, :processador_id, :placa_mae_id, :placa_video_id
       )
+    end
+
+    def validacoes_pedido
+      Validacao::Cliente.execute(@pedido)
+      Validacao::PlacaMae.marca_placa_mae(@pedido)
+      Validacao::MemoriaRam.quantidade_memoria_ram(@pedido)
+      Validacao::MemoriaRam.quantidade_slots_memoria_ram(@pedido)
+      Validacao::MemoriaRam.memoria_ram_suportada(@pedido)
+      Validacao::PlacaVideo.video_integrado(@pedido)
     end
 end

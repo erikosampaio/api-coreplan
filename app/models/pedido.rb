@@ -1,8 +1,8 @@
 class Pedido < ApplicationRecord
-  belongs_to :processador, optional: true
+  belongs_to :processador
   belongs_to :placa_mae
-  belongs_to :placa_video
-  has_and_belongs_to_many :memoria_rans
+  belongs_to :placa_video, optional: true
+  has_and_belongs_to_many :memoria_rans, optional: false
 
   # accepts_nested_attributes_for :memoria_rans
 
