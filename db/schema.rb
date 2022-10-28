@@ -10,13 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_20_210004) do
+ActiveRecord::Schema.define(version: 2022_10_28_000238) do
 
   create_table "memoria_rans", force: :cascade do |t|
     t.string "produto"
     t.integer "tamanho"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "memoria_rans_pedidos", id: false, force: :cascade do |t|
+    t.integer "memoria_ram_id", null: false
+    t.integer "pedido_id", null: false
   end
 
   create_table "pedidos", force: :cascade do |t|

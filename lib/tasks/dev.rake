@@ -22,10 +22,14 @@ namespace :dev do
     end
     
     # Criando memoria_ram
-    MemoriaRam.create!(
-      produto:"Kingston Hiper X",
-      tamanho:[4, 8, 16, 32, 64].sample
-    )
+    memorias_ram = [4, 8, 16, 32, 64]
+    
+    5.times do |i|
+      MemoriaRam.create!(
+        produto:"Kingston Hiper X",
+        tamanho:memorias_ram[i]
+      )
+    end
 
     # Criando processador
     4.times do |i|
@@ -51,7 +55,7 @@ namespace :dev do
       ]
       quantidade_slots_memoria_ram = [2, 2, 4]
       total_memoria_suportada = [16, 16, 64]
-      video_integrado = ["Não", "Não", 'Sim']
+      video_integrado = ["Não", "Não", "Sim"]
       PlacaMae.create!(
         produto:nomes_placa_mae[i],
         processadores_suportados:processadores_suportados[i],
@@ -72,9 +76,12 @@ namespace :dev do
         cliente:Faker::Name.name,
         placa_video:PlacaVideo.all.sample,
         placa_mae:PlacaMae.all.sample,
-        processador:Processador.all.sample,
-        # memoria_ram:MemoriaRam.all.sample
+        processador:Processador.all.sample
       )
+    end
+
+    Pedido.all.each do |pedido|
+      pedido.memoria_rans << MemoriaRam.all.sample(Random.rand(1..4))
     end
     puts "Pedidos cadastrados com sucesso!"
   end

@@ -5,18 +5,19 @@ class PedidosController < ApplicationController
   def index
     @pedidos = Pedido.all
 
-    render json: @pedidos, include: [:processador, :placa_mae, :placa_video]
+    render json: @pedidos#, only: [:id, :cliente], include: [:processador, :placa_mae, :placa_video, :memoria_rans]
   end
 
   # GET /pedidos/1
   def show
-    render json: @pedido, include: [:processador, :placa_mae, :placa_video]
+    render json: @pedido#, only: [:id, :cliente], include: [:processador, :placa_mae, :placa_video, :memoria_rans]
   end
 
   # POST /pedidos
   def create
     @pedido = Pedido.new(pedido_params)
-    
+    memorias_ram = MemoriaRam.find((params[:memoria_rans_attributes].pluck(:id)))
+    @pedido.memoria_rans << memorias_ram
     if @pedido.save
       render json: @pedido, include: [:processador, :placa_mae, :placa_video]
     else
@@ -47,8 +48,7 @@ class PedidosController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def pedido_params
       params.require(:pedido).permit(
-        :cliente, :processador_id, :placa_mae_id, :placa_video_id,
-        memoria_rans_attributes: [:id, :produto, :tamanho]
+        :cliente, :processador_id, :placa_mae_id, :placa_video_id
       )
     end
 end
